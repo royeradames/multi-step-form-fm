@@ -1,3 +1,22 @@
 # Multi-step Form
 
-A Frontend Mentor multi-step form solution. The app lands in the first pull request.
+The [Frontend Mentor multi-step form](https://www.frontendmentor.io/challenges/multistep-form-YVAnSdqQBJ), built with Next.js 16.3.6, React 19.2.8, TypeScript 5.9.3 and Tailwind 4.2.1 on Node 24. TanStack Form 1.33.5 owns the draft; Zod 4.4.3 supplies the step validation schemas.
+
+Live: https://multi-step-form-fm.royeradames.com/
+
+- FM's words, plans, monthly and yearly prices, add-ons, icons and sidebar artwork come from the starter files. Ubuntu uses weights 400, 500 and 700. The desktop white card is 940 × 600 px and centred on Blue 100. At 375 px, the sidebar becomes a 172 px top band, the white card overlaps it at 99 px with 16 px side margins, and the actions sit in a white bottom bar. The bar stays in document flow so taller content and enlarged text can push it down.
+- Four steps lead to FM's thank-you screen. The numbered indicator is informational, with `aria-current="step"`. Each step change focuses the heading and updates a polite live region. Plan cards contain native radios, add-on cards contain native checkboxes, and the Monthly/Yearly control is a keyboard-operable switch. The plan group has a visible legend.
+- No plan is selected initially, making the step-2 selection error reachable. Online service and Larger storage start selected, as in FM's design. Add-ons are optional. Arcade with those two add-ons totals $12/mo or $120/yr. All yearly prices are ten times their monthly prices and each yearly plan shows "2 months free". The monthly total includes the reference's leading plus sign; the yearly total follows the desktop reference without it. The yearly summary correctly says "Yearly", correcting the monthly label in the mobile yearly reference.
+- Submitting empty personal info shows "This field is required" beside each label. Invalid email shows "Enter a valid email address". Missing plan shows "Please select a plan". Errors are associated with their inputs using `aria-describedby` and `aria-invalid`, and submission focuses the first invalid input. Zod validates on submit, then on change after a failed attempt. No button is natively disabled.
+- One mounted TanStack form retains the exact draft through Go Back, Next Step and Change. Inputs remain mounted in hidden step sections; no reset or restore replaces the draft. Navigation clears only validation metadata, so an error from a hidden step cannot block the displayed one. Totals derive from the current plan, billing period and add-ons. There is no storage, sign-in, backend, analytics or network write. Reload starts again. Confirm only changes this local demo to FM's thank-you screen.
+- A small inline script queues a native submission before hydration, prevents navigation and serialization, and replays it once the form mounts. Native typing before hydration is copied into the TanStack draft. The tests wait for `data-hydrated` during normal journeys and separately delay the JavaScript files to cover an early submission.
+- All visible text is at least 16 px, including sidebar captions, prices, errors and attribution. Grey 500, `#9699aa`, fails text contrast on white. Muted text uses `#707386`, darkened just enough for the shared white and Blue 50 backgrounds; footer text uses Blue 950 on Blue 100. Input and unselected card borders use `#858899` for at least 3:1. FM Red 500 stays on invalid input borders; error text uses the darker `hsl(354, 84%, 44%)` to reach 4.5:1 at 16 px. Confirm hover uses `#6258e5` because FM's pale purple hover fails white-label contrast. Sidebar captions use white. These changes and wrapping at narrow widths change a few spacings and line breaks. The plan heading also serves as its visible fieldset legend. Decorative plan and thank-you artwork keeps FM's original colours; native controls, focus outlines and the meaningful checkbox checkmark carry accessible selection/status information.
+- `og:site_name` and WebSite JSON-LD name the site "Multi-step Form". The 1200 × 630 sharing image shows FM's monthly Arcade summary. The SVG favicon uses FM colours and plain paths. `public/icon-96.png` and `public/apple-touch-icon.png` are exported from it. The identity test checks the icon links and fetches every icon and the sharing image.
+
+## Development
+
+```bash
+npm ci
+npm run lint && npm run typecheck && npm run build
+npm test   # Playwright: validation, monthly/yearly journeys, draft integrity, hydration, identity, widths and contrast
+```
