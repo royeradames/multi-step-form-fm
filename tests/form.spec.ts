@@ -65,7 +65,7 @@ for (const billing of ["monthly", "yearly"] satisfies ("monthly" | "yearly")[]) 
     await expect(page.locator(".summary-total > strong")).toHaveText(yearly ? "$120/yr" : "+$12/mo");
     await page.getByRole("button", { name: "Confirm", exact: true }).click();
     await expect(page.getByRole("heading", { level: 1, name: "Thank you!", exact: true })).toBeFocused();
-    await expect(page.locator(".thank-you p")).toHaveText(thankYouText);
+    await expect(page.locator(".thank-you > p")).toHaveText(thankYouText);
     await expect(page.locator('.step-list [aria-current="step"] .step-number')).toHaveText("4");
     await expect(page.locator(".form-actions")).toHaveCount(0);
   });
