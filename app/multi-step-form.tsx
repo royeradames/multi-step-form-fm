@@ -131,6 +131,8 @@ export function MultiStepForm() {
                   <form.Field name="plan">
                     {(field) => {
                       const error = field.state.meta.errors.map((issue) => issue?.message).filter(Boolean).join(" ");
+                      // Plan validation runs on submit/change. TanStack's blur validation clears
+                      // the submit error and moves the billing switch before a click completes.
                       return (
                         <fieldset className="plan-fieldset">
                           <legend><h1 ref={planHeading} tabIndex={-1}>{steps[2].title}</h1></legend>
@@ -140,7 +142,7 @@ export function MultiStepForm() {
                             {plans.map((plan) => (
                               <label className="plan-card" key={plan.id}>
                                 <input className="card-radio" type="radio" name="plan" value={plan.id} checked={field.state.value === plan.id}
-                                  onChange={() => field.handleChange(plan.id)} onBlur={field.handleBlur} aria-invalid={Boolean(error)} aria-describedby={error ? "plan-error" : undefined}
+                                  onChange={() => field.handleChange(plan.id)} aria-invalid={Boolean(error)} aria-describedby={error ? "plan-error" : undefined}
                                   aria-labelledby={`${plan.id}-name`} />
                                 <Image className="plan-icon" src={plan.icon} width={40} height={40} alt="" />
                                 <span className="plan-copy"><strong id={`${plan.id}-name`}>{plan.name}</strong><span>{price(plan[billing], billing)}</span>{billing === "yearly" && <span className="free-months">2 months free</span>}</span>

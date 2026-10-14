@@ -129,6 +129,9 @@ test("a plan error does not block the info step after Go Back or discard its val
   await page.getByRole("button", { name: "Next Step", exact: true }).click();
   await expect(page.locator("#plan-error")).toBeVisible();
   await page.getByRole("switch").click();
+  await expect(page.getByRole("switch")).toHaveAttribute("aria-checked", "true");
+  await expect(page.locator(".plan-copy")).toHaveText(["Arcade$90/yr2 months free", "Advanced$120/yr2 months free", "Pro$150/yr2 months free"]);
+  await expect(page.locator("#plan-error")).toBeVisible();
   await page.getByRole("button", { name: "Go Back", exact: true }).click();
   await expect(page.locator("#name")).toHaveValue("Stephen King");
   await expect(page.locator("#email")).toHaveValue("stephenking@lorem.com");
