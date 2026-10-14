@@ -36,7 +36,7 @@ a:hover { color: var(--purple-hover); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .page-shell { overflow-wrap: anywhere; }
-.form-stage { display: grid; place-items: center; min-height: 100svh; padding: 3rem 1rem; }
+.form-stage { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 100svh; padding: 3rem 1rem; } /* a 0-min track lets the card's max-width: 100% hold between 768 and 956 px */
 .form-card { display: grid; grid-template-columns: 274px minmax(0, 1fr); width: 940px; max-width: 100%; min-height: 600px; padding: 16px; border-radius: 16px; background: var(--white); box-shadow: 0 20px 35px rgb(2 41 90 / 0.06); }
 .step-sidebar { border-radius: 10px; background: var(--purple-600) url("/images/bg-sidebar-desktop.svg") center bottom / cover no-repeat; padding: 40px 32px; }
 .step-list { display: grid; gap: 24px; }
@@ -123,7 +123,8 @@ h1:focus { outline: none; }
 }
 
 @media (max-width: 47.99rem) {
-  .form-stage { position: relative; display: block; min-height: 100svh; padding: 99px 16px 0; }
+  /* Phones: the panels carry the 16 px side margins, so the white action bar can span the width without spilling. */
+  .form-stage { position: relative; display: block; min-height: 100svh; padding: 99px 0 0; }
   .form-card { display: block; width: 100%; min-height: 0; padding: 0; border-radius: 0; background: transparent; box-shadow: none; }
   .step-sidebar { position: absolute; top: 0; left: 0; right: 0; height: 172px; padding: 32px 16px 0; border-radius: 0; background-image: url("/images/bg-sidebar-mobile.svg"); background-position: center top; }
   .step-list { display: flex; justify-content: center; gap: 16px; }
@@ -131,7 +132,7 @@ h1:focus { outline: none; }
   .step-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .step-number { width: 34px; min-height: 34px; }
   .subscription-form { position: relative; min-height: calc(100svh - 99px); padding: 0; }
-  .step-panel { padding: 32px 24px; margin-bottom: 24px; background: var(--white); border-radius: 10px; box-shadow: 0 20px 30px rgb(2 41 90 / 0.07); }
+  .step-panel { padding: 32px 24px; margin: 0 16px 24px; background: var(--white); border-radius: 10px; box-shadow: 0 20px 30px rgb(2 41 90 / 0.07); }
   .step-heading h1, .plan-fieldset h1, .thank-you h1 { font-size: 1.5rem; }
   .step-heading p { margin-top: 8px; line-height: 1.6; }
   .plan-description { line-height: 1.6; }
@@ -148,7 +149,7 @@ h1:focus { outline: none; }
   .summary-add-ons { margin-top: 16px; gap: 12px; padding-top: 12px; }
   .summary-total { padding: 24px 16px 0; }
   .summary-total strong { font-size: 1rem; }
-  .form-actions { margin-inline: -16px; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); background: var(--white); }
+  .form-actions { padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); background: var(--white); }
   .primary-button { min-width: 97px; min-height: 40px; padding: 8px 16px; border-radius: 4px; }
   .back-button { min-height: 40px; }
   .thank-you { flex: 0 1 auto; min-height: 400px; padding-block: 64px; }

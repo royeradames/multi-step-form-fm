@@ -3,16 +3,18 @@ import { box, controlContrast, fillInfo, layoutProblems, next, open, reachPlan, 
 
 const siteName = "Multi-step Form";
 const siteUrl = "https://multi-step-form-fm.royeradames.com/";
+// Next writes og:url and canonical without the trailing slash; either form names the same page.
+const siteUrlPattern = /^https:\/\/multi-step-form-fm\.royeradames\.com\/?$/;
 
 test("identity, canonical, sharing image, icon references and two-line attribution match the sibling sites", async ({ page }) => {
   await open(page);
   await expect(page).toHaveTitle("Multi-step form | Multi-step Form");
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /Frontend Mentor.*local practice subscription/);
   await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute("content", siteName);
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", siteUrl);
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", siteUrlPattern);
   const jsonLd: unknown = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? "{}");
   expect(jsonLd).toEqual({ "@context": "https://schema.org", "@type": "WebSite", name: siteName, url: siteUrl });
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", siteUrl);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", siteUrlPattern);
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /opengraph-image/);
   await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute("content", /Multi-step Form/);
   await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
