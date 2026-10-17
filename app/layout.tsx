@@ -3,7 +3,9 @@ import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import { siteName, siteUrl } from "./site";
 
-const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-ubuntu", display: "swap" });
+// Fonts aren't preloaded: text paints at once in next/font's size-matched fallback (display: swap), so the
+// font files needn't compete with the first paint.
+const ubuntu = Ubuntu({ preload: false, subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-ubuntu", display: "swap" });
 const title = "Multi-step form | Multi-step Form";
 const description = "A Frontend Mentor multi-step form. Choose a gaming plan and add-ons, review the prices, and confirm a local practice subscription.";
 
