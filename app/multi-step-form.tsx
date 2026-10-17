@@ -1,7 +1,7 @@
 "use client";
+/* eslint-disable @next/next/no-img-element -- next/image added client JavaScript here without optimizing anything (SVGs, data URLs or unoptimized files). */
 
 import { useForm } from "@tanstack/react-form";
-import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { addOns, defaultValues, plans, price, schemaForStep, stepNumbers, steps, thankYouText, type Screen } from "./form-data";
 
@@ -95,7 +95,7 @@ export function MultiStepForm() {
           <div className={`step-panel${screen === "thank-you" ? " thank-you" : ""}`}>
             {screen === "thank-you" ? (
               <>
-                <Image className="thank-you-icon" src="/images/icon-thank-you.svg" width={80} height={80} alt="" />
+                <img className="thank-you-icon" src="/images/icon-thank-you.svg" width={80} height={80} alt="" loading="lazy" decoding="async" />
                 <h1 ref={heading} tabIndex={-1}>Thank you!</h1>
                 <p>{thankYouText}</p>
               </>
@@ -144,7 +144,7 @@ export function MultiStepForm() {
                                 <input className="card-radio" type="radio" name="plan" value={plan.id} checked={field.state.value === plan.id}
                                   onChange={() => field.handleChange(plan.id)} aria-invalid={Boolean(error)} aria-describedby={error ? "plan-error" : undefined}
                                   aria-labelledby={`${plan.id}-name`} />
-                                <Image className="plan-icon" src={plan.icon} width={40} height={40} alt="" />
+                                <img className="plan-icon" src={plan.icon} width={40} height={40} alt="" loading="lazy" decoding="async" />
                                 <span className="plan-copy"><strong id={`${plan.id}-name`}>{plan.name}</strong><span>{price(plan[billing], billing)}</span>{billing === "yearly" && <span className="free-months">2 months free</span>}</span>
                               </label>
                             ))}
