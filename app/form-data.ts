@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod/mini";
 
 export const plans = [
   { id: "arcade", name: "Arcade", monthly: 9, yearly: 90, icon: "/images/icon-arcade.svg" },
@@ -27,7 +27,7 @@ const draftSchema = z.object({
   name: z.string(),
   email: z.string(),
   phone: z.string(),
-  plan: z.enum(["arcade", "advanced", "pro"]).nullable(),
+  plan: z.nullable(z.enum(["arcade", "advanced", "pro"])),
   billing: z.enum(["monthly", "yearly"]),
   onlineService: z.boolean(),
   largerStorage: z.boolean(),
@@ -41,15 +41,17 @@ export const defaultValues: Draft = {
   onlineService: true, largerStorage: true, customizableProfile: false,
 };
 
-const required = z.string().refine((value) => value.trim().length > 0, "This field is required");
-const email = z.string().superRefine((value, context) => {
+// Zod Mini: the same checks as Zod's chained API, a fraction of the client JavaScript.
+const required = z.string().check(z.refine((value) => value.trim().length > 0, "This field is required"));
+const emailFormat = z.email();
+const email = z.string().check(z.superRefine((value, context) => {
   if (!value.trim()) context.addIssue({ code: "custom", message: "This field is required" });
-  else if (!z.email().safeParse(value.trim()).success) context.addIssue({ code: "custom", message: "Enter a valid email address" });
-});
+  else if (!emailFormat.safeParse(value.trim()).success) context.addIssue({ code: "custom", message: "Enter a valid email address" });
+}));
 
 export function schemaForStep(step: Screen) {
-  if (step === 1) return draftSchema.extend({ name: required, email, phone: required });
-  if (step === 2) return draftSchema.extend({ plan: draftSchema.shape.plan.refine((value) => value !== null, "Please select a plan") });
+  if (step === 1) return z.extend(draftSchema, { name: required, email, phone: required });
+  if (step === 2) return z.extend(draftSchema, { plan: draftSchema.shape.plan.check(z.refine((value) => value !== null, "Please select a plan")) });
   return draftSchema;
 }
 
